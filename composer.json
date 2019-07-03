@@ -1,0 +1,32 @@
+{
+    "name": "soooldier/hyperf-whoops",
+    "description": "A whoops component for hyperf.",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "hyperf",
+        "whoops"
+    ],
+    "require": {
+        "php": ">=7.2",
+        "filp/whoops": "^2.4",
+        "psr/http-message": "^1.0",
+        "psr/container": "^1.0",
+        "hyperf/http-message": "^1.0"
+    },
+    "autoload": {
+        "files": [
+        ],
+        "psr-4": {
+            "Hyperf\\Whoops\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "hyperf": {
+            "config": "Hyperf\\Whoops\\ConfigProvider"
+        }
+    }
+}

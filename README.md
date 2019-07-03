@@ -13,15 +13,18 @@ composer require soooldier/hyperf-whoops
 ```
 
 # Api
-* [Whoops::setException](#setException)
-* [Whoops::getHtmlOutput](#getHtmlOutput)
-* [Whoops::getPlainTextOutput](#getPlainTextOutput)
-* [Whoops::getJsonOutput](#getJsonOutput)
+- [hyperf-whoops](#hyperf-whoops)
+- [Features](#Features)
+- [How to use](#How-to-use)
+- [Api](#Api)
+- [Contents](#Contents)
+  - [getHtmlOutput](#getHtmlOutput)
+  - [getPlainTextOutput](#getPlainTextOutput)
+  - [getJsonOutput](#getJsonOutput)
+- [Example](#Example)
+- [ChangeLog](#ChangeLog)
 
 # Contents
-
-## setException
-`$whoops->setException()` 设置要处理的异常对象
 
 ## getHtmlOutput
 `$whoops->getHtmlOutput()`
@@ -55,10 +58,10 @@ class AppExceptionHandler extends ExceptionHandler
 
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
-        $whoops = $this->container->get('whoops')->setException($throwable);
-        $content = $whoops->getHtmlOutput(); // 获取html格式输出，日志最详细
-        // $content = $whoops->getJsonOutput(); // 获取json格式输出，通常配合ajax使用
-        // $content = $whoops->getPlainTextOutput(); // 文本格式输出，通常记日志
+        $whoops = $this->container->get('whoops');
+        $content = $whoops->getHtmlOutput($throwable); // 获取html格式输出，日志最详细
+        // $content = $whoops->getJsonOutput($throwable); // 获取json格式输出，通常配合ajax使用
+        // $content = $whoops->getPlainTextOutput($throwable); // 文本格式输出，通常记日志
         return $response->withStatus(500)->withBody(new SwooleStream($content));
     }
 
@@ -72,3 +75,4 @@ class AppExceptionHandler extends ExceptionHandler
 # ChangeLog
 
 * v1.0.0 第一版
+* v1.0.1 修复相同协程内数据污染问题

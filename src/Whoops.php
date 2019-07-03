@@ -23,11 +23,6 @@ class Whoops
     private $run;
 
     /**
-     * @var Throwable
-     */
-    private $exception;
-
-    /**
      * Whoops constructor.
      * @param ContainerInterface $container
      */
@@ -42,50 +37,34 @@ class Whoops
 
     /**
      * @param \Throwable $throwable
-     * @return $this
-     */
-    public function setException(\Throwable $throwable)
-    {
-        $this->exception = $throwable;
-        return $this;
-    }
-
-    /**
      * @return string
      */
-    public function getJsonOutput(): string
+    public function getJsonOutput(\Throwable $throwable): string
     {
-        if (!($this->exception instanceof \Throwable)) {
-            throw new \InvalidArgumentException('invalid exception');
-        }
         $this->run->prependHandler($this->container->make(JsonResponseHandler::class));
-        return $this->run->handleException($this->exception);
+        return $this->run->handleException($throwable);
     }
 
     /**
+     * @param \Throwable $throwable
      * @return string
      */
-    public function getHtmlOutput(): string
+    public function getHtmlOutput(\Throwable $throwable): string
     {
-        if (!($this->exception instanceof \Throwable)) {
-            throw new \InvalidArgumentException('invalid exception');
-        }
         $prettyPageHandler = $this->container->make(PrettyPageHandler::class);
         $basePrettyPageHandler = $this->container->make(BasePrettyPageHandler::class);
         $prettyPageHandler->setResourcesPath($basePrettyPageHandler->getResourcesPath());
         $this->run->prependHandler($prettyPageHandler);
-        return $this->run->handleException($this->exception);
+        return $this->run->handleException($throwable);
     }
 
     /**
+     * @param \Throwable $throwable
      * @return string
      */
-    public function getPlainTextOutput(): string
+    public function getPlainTextOutput(\Throwable $throwable): string
     {
-        if (!($this->exception instanceof \Throwable)) {
-            throw new \InvalidArgumentException('invalid exception');
-        }
         $this->run->prependHandler($this->container->make(PlainTextHandler::class));
-        return $this->run->handleException($this->exception);
+        return $this->run->handleException($throwable);
     }
 }
